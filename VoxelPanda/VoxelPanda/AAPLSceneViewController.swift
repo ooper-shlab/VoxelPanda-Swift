@@ -1,0 +1,238 @@
+//
+//  AAPLSceneViewController.swift
+//  VoxelPanda
+//
+//  Translated by OOPer in cooperation with shlab.jp, on 2015/12/21.
+//
+//
+/*
+ Copyright (C) 2015 Apple Inc. All Rights Reserved.
+ See LICENSE.txt for this sample’s licensing information
+
+ Abstract:
+ This view controller contains the Model IO code which is the focus of the sample, which is the loading of voxels. The voxels are displayed using SceneKit as an example graphics library.
+ */
+
+#if os(OSX)
+    import Cocoa
+    typealias BaseViewController = NSViewController
+    typealias SCNVectorFloat = CGFloat
+#else
+    import UIKit
+    typealias BaseViewController = UIViewController
+    typealias SCNVectorFloat = Float
+#endif
+import SceneKit
+import ModelIO
+import SceneKit.ModelIO
+
+private let SCALE_FACTOR: CGFloat = 0.1
+
+private func rnd() -> SCNVectorFloat {
+    return 0.01 * SCNVectorFloat(SCALE_FACTOR) * ((SCNVectorFloat(rand()) / SCNVectorFloat(RAND_MAX)) - 0.5)
+}
+
+@objc(AAPLSceneViewController)
+class AAPLSceneViewController: BaseViewController {
+    
+    
+    @IBOutlet weak var sceneView: SCNView!
+    
+    private var _character: SCNNode!
+    private var _voxels: SCNNode?
+    private var _explodeUsingCubes: Bool = false
+    
+    // Set up scene with character.scn asset and set view properties
+    override func awakeFromNib() {
+        //#if TARGET_OS_IPHONE
+        //    self.sceneView = (SCNView *)self.view;
+        //
+        //    // Set up tap gesture recognizer
+        //    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        //    [self.view addGestureRecognizer:tapGesture];
+        //#endif
+        
+        // Load scene from file path
+        let characterScene = SCNScene(named: "character.scnassets/character.scn")!
+        
+        // For each static physics body in the scene, set its shape and remove the node's geometry so it doesn't appear in the scene.
+        let collisionNode = characterScene.rootNode.childNodeWithName("collision", recursively: true)!
+        collisionNode.enumerateChildNodesUsingBlock{child, stop in
+            child.physicsBody!.physicsShape = SCNPhysicsShape(geometry: child.geometry!, options: nil)
+            child.geometry = nil
+        }
+        
+        // Set view properties and defaults
+        _character = characterScene.rootNode.childNodeWithName("character", recursively: true)!
+        self.sceneView.scene = characterScene
+        self.sceneView.jitteringEnabled = true
+        self.sceneView.allowsCameraControl = false
+    }
+    
+    @IBAction func voxelize(_: AnyObject) {
+        // Create MDLAsset from scene
+        let tempScene = SCNScene()
+        tempScene.rootNode.addChildNode(_character)
+        let asset = MDLAsset(SCNScene: tempScene)
+        
+        // Create voxel grid from MDLAsset
+        let grid = MDLVoxelArray(asset: asset, divisions: 25, interiorShells: 0, exteriorShells: 0, patchRadius: 0.0)
+        if let voxelData = grid.voxelIndices() where voxelData.bytes != nil {   // retrieve voxel data
+            // Create voxel parent node and add to scene
+            _voxels?.removeFromParentNode()
+            _voxels = SCNNode()
+            self.sceneView.scene?.rootNode.addChildNode(_voxels!)
+            
+            // Create the voxel node geometry
+            let particle = SCNBox(width: 2.0 * SCALE_FACTOR, height: 2.0 * SCALE_FACTOR, length: 2.0 * SCALE_FACTOR, chamferRadius: 0.0)
+            
+            // Get the character's texture map and convert to a bitmap
+            let url = _character.childNodes[0].geometry!.firstMaterial!.diffuse.contents as! NSURL // this sample assumes that the `diffuse` material property is an URL to an image
+            let image: CGImage
+            #if os(iOS)
+                //        image = [[UIImage imageWithContentsOfFile:[url path]] CGImage];
+            #else
+                image = NSImage(byReferencingURL: url).CGImageForProposedRect(nil, context: nil, hints: nil)!
+            #endif
+            let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(image))!
+            let buf = CFDataGetBytePtr(pixelData)
+            let w = CGImageGetWidth(image)
+            let h = CGImageGetHeight(image)
+            let bpr = CGImageGetBytesPerRow(image) // this sample assumes 8 bits per component
+            let bpp = CGImageGetBitsPerPixel(image) / 8
+            
+            // Traverse the NSData voxel array and for each ijk index, create a voxel node positioned at its spatial location
+            var voxels = UnsafeMutablePointer<MDLVoxelIndex>(voxelData.bytes)
+            let count = voxelData.length / sizeof(MDLVoxelIndex)
+            for _ in 0..<count {
+                let position = grid.spatialLocationOfIndex((voxels++).memory)
+                
+                let OFFSET_FACTOR: SCNVectorFloat = 0.9
+                // Determine color of the voxel by performing a hit test and then getting the texture coordinate at the point of intersection
+                let results = self.sceneView.scene!.rootNode
+                    .hitTestWithSegmentFromPoint(SCNVector3Make(SCNVectorFloat(position.x), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + 1.0),
+                        toPoint: SCNVector3Make(SCNVectorFloat(position.x)  * OFFSET_FACTOR , SCNVectorFloat(position.y)  * OFFSET_FACTOR, SCNVectorFloat(position.z) - 5.0),
+                        options: [SCNHitTestRootNodeKey : _character, SCNHitTestBackFaceCullingKey : false])
+                #if os(iOS)
+                    //            UIColor *color = [UIColor darkGrayColor]; // default voxel color
+                #else
+                    var color = NSColor.darkGrayColor()
+                #endif
+                if !results.isEmpty {
+                    let result = results[0]
+                    let tx = result.textureCoordinatesWithMappingChannel(0)
+                    // Get the bitmap pixel color at the texture coordinate
+                    let x = tx.x * CGFloat(w)
+                    let y = tx.y * CGFloat(h)
+                    let pixel = bpr * Int(round(y)) + bpp * Int(round(x))
+                    let r = CGFloat(buf[pixel]) / 255.0 // this sample code assumes that the first 3 components are R, G and B
+                    let g = CGFloat(buf[pixel+1]) / 255.0
+                    let b = CGFloat(buf[pixel+2]) / 255.0
+                    #if os(iOS)
+                        //                color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+                    #else
+                        color = NSColor(calibratedRed: r, green: g, blue:b, alpha: 1)
+                    #endif
+                }
+                
+                // Create the voxel node and set its properties
+                let voxelNode = SCNNode(geometry: (particle.copy() as! SCNGeometry))
+                voxelNode.position = SCNVector3Make(SCNVectorFloat(position.x) + rnd(), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + rnd())
+                let material = SCNMaterial()
+                material.diffuse.contents = color
+                material.selfIllumination.contents = "character.scnassets/textures/max_ambiant.png"
+                voxelNode.geometry!.firstMaterial = material
+                
+                // Add voxel node to the scene
+                _voxels!.addChildNode(voxelNode)
+            }
+            _explodeUsingCubes = true
+        }
+    }
+    
+    @IBAction func dispalyVoxelsAsCubes(_: AnyObject) {
+        if !_explodeUsingCubes {
+            let cube = SCNBox(width: 2.0 * SCALE_FACTOR, height: 2.0 * SCALE_FACTOR, length: 2.0 * SCALE_FACTOR, chamferRadius: 0.0)
+            
+            // For each voxel node, change its geometry to a cube
+            _voxels?.enumerateChildNodesUsingBlock{child, stop in
+                let material = child.geometry?.firstMaterial
+                child.geometry = (cube.copy() as! SCNGeometry)
+                child.geometry!.firstMaterial = material
+            }
+            _explodeUsingCubes = true
+        }
+    }
+    
+    @IBAction func dispalyVoxelsAsSpheres(_: AnyObject) {
+        if _explodeUsingCubes {
+            let sphere = SCNSphere(radius: 1.0 * SCALE_FACTOR)
+            
+            // For each voxel node, change its geometry to a sphere
+            _voxels?.enumerateChildNodesUsingBlock{child, stop in
+                let material = child.geometry?.firstMaterial
+                child.geometry = (sphere.copy() as! SCNGeometry)
+                child.geometry!.firstMaterial = material
+            }
+            _explodeUsingCubes = false
+        }
+    }
+    
+    @IBAction func explode(_: AnyObject) {
+        // The shape of the physics body varies depending on the geometry of the voxel node
+        let particle: SCNGeometry
+        if _explodeUsingCubes {
+            particle = SCNBox(width: 1.9 * SCALE_FACTOR, height: 1.9 * SCALE_FACTOR, length: 1.9 * SCALE_FACTOR, chamferRadius: 0.0)
+        } else {
+            particle = SCNSphere(radius: 0.9 * SCALE_FACTOR)
+        }
+        
+        // For each voxel node, apply a physics force
+        _voxels?.enumerateChildNodesUsingBlock{child, stop in
+            child.physicsBody = SCNPhysicsBody.dynamicBody()
+            child.physicsBody!.physicsShape = SCNPhysicsShape(geometry: particle, options: nil)
+            child.physicsBody!.applyForce(SCNVector3Make(rnd() * 1000.0, 3.0 + 100.0 * rnd(), rnd() * 1000.0), atPosition: SCNVector3Make(0.0, 0.0, 0.0), impulse: true)
+        }
+    }
+    
+    @IBAction func reset(_: AnyObject) {
+        _voxels?.removeFromParentNode()
+        self.sceneView.scene!.rootNode.addChildNode(_character)
+    }
+    
+    //#if TARGET_OS_IPHONE
+    //- (void)handleTapGesture:(UITapGestureRecognizer *)gesture
+    //{
+    //    CGRect targetRectangle = CGRectMake(self.view.bounds.size.width * .5 - 50, self.view.bounds.size.height * .25, 100, 100);
+    //    [[UIMenuController sharedMenuController] setTargetRect:targetRectangle inView:self.view];
+    //
+    //    // Create custom menu items
+    //    UIMenuItem *voxelizeMenuItem = [[UIMenuItem alloc] initWithTitle:@"Voxelize" action:@selector(voxelize:)];
+    //    UIMenuItem *cubesMenuItem = [[UIMenuItem alloc] initWithTitle:@"Cubes" action:@selector(dispalyVoxelsAsCubes:)];
+    //    UIMenuItem *spheresMenuItem = [[UIMenuItem alloc] initWithTitle:@"Spheres" action:@selector(dispalyVoxelsAsSpheres:)];
+    //    UIMenuItem *explodeMenuItem = [[UIMenuItem alloc] initWithTitle:@"Explode" action:@selector(explode:)];
+    //    UIMenuItem *resetMenuItem = [[UIMenuItem alloc] initWithTitle:@"Reset" action:@selector(reset:)];
+    //
+    //    // Add menu items to shared menu controller
+    //    [[UIMenuController sharedMenuController] setMenuItems:@[voxelizeMenuItem, cubesMenuItem, spheresMenuItem, explodeMenuItem, resetMenuItem]];
+    //
+    //    // Make menu controller visible
+    //    [[UIMenuController sharedMenuController] setMenuVisible:YES animated:YES];
+    //}
+    //
+    //- (BOOL)canBecomeFirstResponder {
+    //    return YES;
+    //}
+    //
+    //- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+    //{
+    //    if (action == @selector(voxelize:) || action == @selector(dispalyVoxelsAsCubes:) || action == @selector(dispalyVoxelsAsSpheres:) ||
+    //        action == @selector(explode:) || action == @selector(reset:))
+    //    {
+    //        return YES;
+    //    }
+    //    return NO;
+    //}
+    //#endif
+    
+}

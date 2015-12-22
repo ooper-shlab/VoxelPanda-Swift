@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9058" systemVersion="15A282" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9058"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="9058"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <viewController id="ame-YC-pUR" customClass="AAPLSceneViewController">
+            <connections>
+                <outlet property="sceneView" destination="Baq-NK-sJH" id="hKN-Io-NlU"/>
+                <outlet property="view" destination="Baq-NK-sJH" id="xoo-iZ-pz3"/>
+            </connections>
+        </viewController>
+        <customObject id="Voe-Tx-rLC" customClass="AAPLAppDelegate">
+            <connections>
+                <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
+            <items>
+                <menuItem title="VoxelPanda" id="1Xt-HY-uBw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="VoxelPanda" systemMenu="apple" id="uQy-DD-JDr">
+                        <items>
+                            <menuItem title="About VoxelPanda" id="5kV-Vb-QxS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="orderFrontStandardAboutPanel:" target="-1" id="Exp-CZ-Vem"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                            <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
+                            <menuItem title="Services" id="NMo-om-nkz">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
+                            <menuItem title="Hide VoxelPanda" keyEquivalent="h" id="Olw-nP-bQN">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="PnN-Uc-m68"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Others" keyEquivalent="h" id="Vdr-fp-XzO">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="VT4-aY-XCT"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="Kd2-mp-pUS">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="Dhg-Le-xox"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
+                            <menuItem title="Quit VoxelPanda" keyEquivalent="q" id="4sb-4s-VLi">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="Te7-pn-YzF"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Actions" id="aUF-d1-5bR">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Actions" systemMenu="window" id="Td7-aD-5lo">
+                        <items>
+                            <menuItem title="Voxelize" keyEquivalent="v" id="R4o-n2-Eq4">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="voxelize:" target="ame-YC-pUR" id="XOy-7h-Rob"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Display Voxels as Spheres" keyEquivalent="s" id="B7L-f7-VKD">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="dispalyVoxelsAsSpheres:" target="ame-YC-pUR" id="oHt-TN-lbk"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Display Voxels as Cubes" keyEquivalent="c" id="TXa-DT-z3v">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="dispalyVoxelsAsCubes:" target="ame-YC-pUR" id="RSc-w8-4mG"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Explode" keyEquivalent="e" id="Znf-4p-PoT">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="explode:" target="ame-YC-pUR" id="4MW-fS-Uag"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Reset" keyEquivalent="r" id="563-hS-iDU">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="reset:" target="ame-YC-pUR" id="Js4-g7-Lxz"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="hHb-if-4aF">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Window" systemMenu="window" id="mRt-y2-Hco">
+                        <items>
+                            <menuItem title="Minimize" keyEquivalent="m" id="57c-y6-PJJ">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="zqZ-G0-qKu"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Zoom" id="MuY-Tw-D7J">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="performZoom:" target="-1" id="GgC-ok-N2V"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="srk-Ui-Le6"/>
+                            <menuItem title="Bring All to Front" id="UTF-10-R8Z">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="arrangeInFront:" target="-1" id="cKd-vP-ffR"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="wpr-3q-Mcd">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
+                        <items>
+                            <menuItem title="VoxelPanda Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="y7X-2Q-9no"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+        </menu>
+        <window title="VoxelPanda" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="0.0" y="0.0" width="610" height="784"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="610" height="784"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <sceneView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Baq-NK-sJH">
+                        <rect key="frame" x="-79" y="0.0" width="689" height="848"/>
+                        <animations/>
+                    </sceneView>
+                </subviews>
+                <animations/>
+            </view>
+            <point key="canvasLocation" x="357" y="386"/>
+        </window>
+    </objects>
+</document>

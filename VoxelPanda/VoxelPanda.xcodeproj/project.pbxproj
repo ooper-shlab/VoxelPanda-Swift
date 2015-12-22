@@ -1,0 +1,317 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8460E8F21B21166400683850 /* character.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 8460E8EC1B21166400683850 /* character.scnassets */; };
+		8460E8F41B21166400683850 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8460E8EF1B21166400683850 /* Images.xcassets */; };
+		8460E8FE1B211CCA00683850 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8460E8FC1B211CCA00683850 /* MainMenu.xib */; };
+		D756F1A21C281CD5006C884C /* AAPLSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D756F1A11C281CD5006C884C /* AAPLSceneViewController.swift */; };
+		D77E4C871C28E8C400D66013 /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E4C861C28E8C400D66013 /* AAPLAppDelegate.swift */; };
+		D77E4C8B1C28E9E500D66013 /* README2.md in Sources */ = {isa = PBXBuildFile; fileRef = D77E4C8A1C28E9E500D66013 /* README2.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3024CDDC1BF3EDEB002834F9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8460E8EC1B21166400683850 /* character.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = character.scnassets; sourceTree = "<group>"; };
+		8460E8EF1B21166400683850 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VoxelPanda/Images.xcassets; sourceTree = "<group>"; };
+		8460E8F01B21166400683850 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VoxelPanda/Info.plist; sourceTree = "<group>"; };
+		8460E8FD1B211CCA00683850 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = VoxelPanda/Base.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		84F858051B0FC93400E4EB34 /* VoxelPanda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoxelPanda.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D756F1A11C281CD5006C884C /* AAPLSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSceneViewController.swift; sourceTree = "<group>"; };
+		D77E4C861C28E8C400D66013 /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLAppDelegate.swift; sourceTree = "<group>"; };
+		D77E4C881C28E9C500D66013 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D77E4C8A1C28E9E500D66013 /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84F858021B0FC93400E4EB34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84F3B0E61BE83F6400808218 /* VoxelPanda OSX */ = {
+			isa = PBXGroup;
+			children = (
+				D77E4C861C28E8C400D66013 /* AAPLAppDelegate.swift */,
+				8460E8EF1B21166400683850 /* Images.xcassets */,
+				8460E8FC1B211CCA00683850 /* MainMenu.xib */,
+				8460E8F01B21166400683850 /* Info.plist */,
+				84F8580B1B0FC93400E4EB34 /* Supporting Files */,
+			);
+			name = "VoxelPanda OSX";
+			sourceTree = "<group>";
+		};
+		84F857FC1B0FC93400E4EB34 = {
+			isa = PBXGroup;
+			children = (
+				D77E4C881C28E9C500D66013 /* LICENSE.txt */,
+				3024CDDC1BF3EDEB002834F9 /* README.md */,
+				D77E4C8A1C28E9E500D66013 /* README2.md */,
+				84F858071B0FC93400E4EB34 /* VoxelPanda */,
+				84F3B0E61BE83F6400808218 /* VoxelPanda OSX */,
+				84F858061B0FC93400E4EB34 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84F858061B0FC93400E4EB34 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84F858051B0FC93400E4EB34 /* VoxelPanda.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84F858071B0FC93400E4EB34 /* VoxelPanda */ = {
+			isa = PBXGroup;
+			children = (
+				D756F1A11C281CD5006C884C /* AAPLSceneViewController.swift */,
+				8460E8EC1B21166400683850 /* character.scnassets */,
+			);
+			path = VoxelPanda;
+			sourceTree = "<group>";
+		};
+		84F8580B1B0FC93400E4EB34 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Supporting Files";
+			path = VoxelPanda;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		84F858041B0FC93400E4EB34 /* VoxelPanda */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84F858211B0FC93400E4EB34 /* Build configuration list for PBXNativeTarget "VoxelPanda" */;
+			buildPhases = (
+				84F858011B0FC93400E4EB34 /* Sources */,
+				84F858021B0FC93400E4EB34 /* Frameworks */,
+				84F858031B0FC93400E4EB34 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoxelPanda;
+			productName = VoxelPanda;
+			productReference = 84F858051B0FC93400E4EB34 /* VoxelPanda.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84F857FD1B0FC93400E4EB34 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = AAPL;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Apple Inc.";
+				TargetAttributes = {
+					84F858041B0FC93400E4EB34 = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = 84F858001B0FC93400E4EB34 /* Build configuration list for PBXProject "VoxelPanda" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84F857FC1B0FC93400E4EB34;
+			productRefGroup = 84F858061B0FC93400E4EB34 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84F858041B0FC93400E4EB34 /* VoxelPanda */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84F858031B0FC93400E4EB34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8460E8F21B21166400683850 /* character.scnassets in Resources */,
+				8460E8F41B21166400683850 /* Images.xcassets in Resources */,
+				8460E8FE1B211CCA00683850 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84F858011B0FC93400E4EB34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D77E4C871C28E8C400D66013 /* AAPLAppDelegate.swift in Sources */,
+				D756F1A21C281CD5006C884C /* AAPLSceneViewController.swift in Sources */,
+				D77E4C8B1C28E9E500D66013 /* README2.md in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8460E8FC1B211CCA00683850 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8460E8FD1B211CCA00683850 /* Base */,
+			);
+			name = MainMenu.xib;
+			path = VoxelPanda;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		84F8581F1B0FC93400E4EB34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx.internal;
+			};
+			name = Debug;
+		};
+		84F858201B0FC93400E4EB34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx.internal;
+			};
+			name = Release;
+		};
+		84F858221B0FC93400E4EB34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/VoxelPanda/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.voxelpanda";
+				PRODUCT_NAME = VoxelPanda;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		84F858231B0FC93400E4EB34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/VoxelPanda/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.voxelpanda";
+				PRODUCT_NAME = VoxelPanda;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84F858001B0FC93400E4EB34 /* Build configuration list for PBXProject "VoxelPanda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84F8581F1B0FC93400E4EB34 /* Debug */,
+				84F858201B0FC93400E4EB34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84F858211B0FC93400E4EB34 /* Build configuration list for PBXNativeTarget "VoxelPanda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84F858221B0FC93400E4EB34 /* Debug */,
+				84F858231B0FC93400E4EB34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84F857FD1B0FC93400E4EB34 /* Project object */;
+}
