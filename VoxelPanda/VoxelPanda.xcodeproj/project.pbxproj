@@ -11,21 +11,23 @@
 		8460E8F41B21166400683850 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8460E8EF1B21166400683850 /* Images.xcassets */; };
 		8460E8FE1B211CCA00683850 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8460E8FC1B211CCA00683850 /* MainMenu.xib */; };
 		D756F1A21C281CD5006C884C /* AAPLSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D756F1A11C281CD5006C884C /* AAPLSceneViewController.swift */; };
-		D77E4C871C28E8C400D66013 /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77E4C861C28E8C400D66013 /* AAPLAppDelegate.swift */; };
-		D77E4C8B1C28E9E500D66013 /* README2.md in Sources */ = {isa = PBXBuildFile; fileRef = D77E4C8A1C28E9E500D66013 /* README2.md */; };
+		D768B0B71C28EE43007F3C4A /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768B0B61C28EE43007F3C4A /* AAPLAppDelegate.swift */; };
+		D768B0BB1C28EE6A007F3C4A /* README2.md in Sources */ = {isa = PBXBuildFile; fileRef = D768B0B81C28EE6A007F3C4A /* README2.md */; };
+		D768B0BC1C28EE6A007F3C4A /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D768B0B91C28EE6A007F3C4A /* LICENSE.txt */; };
+		D768B0BD1C28EE6A007F3C4A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D768B0BA1C28EE6A007F3C4A /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3024CDDC1BF3EDEB002834F9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8460E8EC1B21166400683850 /* character.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = character.scnassets; sourceTree = "<group>"; };
 		8460E8EF1B21166400683850 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = VoxelPanda/Images.xcassets; sourceTree = "<group>"; };
 		8460E8F01B21166400683850 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = VoxelPanda/Info.plist; sourceTree = "<group>"; };
 		8460E8FD1B211CCA00683850 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = VoxelPanda/Base.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
 		84F858051B0FC93400E4EB34 /* VoxelPanda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoxelPanda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D756F1A11C281CD5006C884C /* AAPLSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLSceneViewController.swift; sourceTree = "<group>"; };
-		D77E4C861C28E8C400D66013 /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAPLAppDelegate.swift; sourceTree = "<group>"; };
-		D77E4C881C28E9C500D66013 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		D77E4C8A1C28E9E500D66013 /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
+		D768B0B61C28EE43007F3C4A /* AAPLAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AAPLAppDelegate.swift; path = VoxelPanda/AAPLAppDelegate.swift; sourceTree = "<group>"; };
+		D768B0B81C28EE6A007F3C4A /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README2.md; path = ../README2.md; sourceTree = "<group>"; };
+		D768B0B91C28EE6A007F3C4A /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../LICENSE.txt; sourceTree = "<group>"; };
+		D768B0BA1C28EE6A007F3C4A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +44,7 @@
 		84F3B0E61BE83F6400808218 /* VoxelPanda OSX */ = {
 			isa = PBXGroup;
 			children = (
-				D77E4C861C28E8C400D66013 /* AAPLAppDelegate.swift */,
+				D768B0B61C28EE43007F3C4A /* AAPLAppDelegate.swift */,
 				8460E8EF1B21166400683850 /* Images.xcassets */,
 				8460E8FC1B211CCA00683850 /* MainMenu.xib */,
 				8460E8F01B21166400683850 /* Info.plist */,
@@ -54,9 +56,9 @@
 		84F857FC1B0FC93400E4EB34 = {
 			isa = PBXGroup;
 			children = (
-				D77E4C881C28E9C500D66013 /* LICENSE.txt */,
-				3024CDDC1BF3EDEB002834F9 /* README.md */,
-				D77E4C8A1C28E9E500D66013 /* README2.md */,
+				D768B0B91C28EE6A007F3C4A /* LICENSE.txt */,
+				D768B0BA1C28EE6A007F3C4A /* README.md */,
+				D768B0B81C28EE6A007F3C4A /* README2.md */,
 				84F858071B0FC93400E4EB34 /* VoxelPanda */,
 				84F3B0E61BE83F6400808218 /* VoxelPanda OSX */,
 				84F858061B0FC93400E4EB34 /* Products */,
@@ -146,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D768B0BC1C28EE6A007F3C4A /* LICENSE.txt in Resources */,
 				8460E8F21B21166400683850 /* character.scnassets in Resources */,
 				8460E8F41B21166400683850 /* Images.xcassets in Resources */,
 				8460E8FE1B211CCA00683850 /* MainMenu.xib in Resources */,
@@ -159,9 +162,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D77E4C871C28E8C400D66013 /* AAPLAppDelegate.swift in Sources */,
+				D768B0B71C28EE43007F3C4A /* AAPLAppDelegate.swift in Sources */,
 				D756F1A21C281CD5006C884C /* AAPLSceneViewController.swift in Sources */,
-				D77E4C8B1C28E9E500D66013 /* README2.md in Sources */,
+				D768B0BD1C28EE6A007F3C4A /* README.md in Sources */,
+				D768B0BB1C28EE6A007F3C4A /* README2.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
