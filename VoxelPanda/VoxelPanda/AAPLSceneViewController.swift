@@ -105,7 +105,8 @@ class AAPLSceneViewController: BaseViewController {
             var voxels = UnsafeMutablePointer<MDLVoxelIndex>(voxelData.bytes)
             let count = voxelData.length / sizeof(MDLVoxelIndex)
             for _ in 0..<count {
-                let position = grid.spatialLocationOfIndex((voxels++).memory)
+                let position = grid.spatialLocationOfIndex(voxels.memory)
+                voxels = voxels.successor()
                 
                 let OFFSET_FACTOR: SCNVectorFloat = 0.9
                 // Determine color of the voxel by performing a hit test and then getting the texture coordinate at the point of intersection

@@ -12,9 +12,6 @@
 		8460E8FE1B211CCA00683850 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8460E8FC1B211CCA00683850 /* MainMenu.xib */; };
 		D756F1A21C281CD5006C884C /* AAPLSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D756F1A11C281CD5006C884C /* AAPLSceneViewController.swift */; };
 		D768B0B71C28EE43007F3C4A /* AAPLAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768B0B61C28EE43007F3C4A /* AAPLAppDelegate.swift */; };
-		D768B0BB1C28EE6A007F3C4A /* README2.md in Sources */ = {isa = PBXBuildFile; fileRef = D768B0B81C28EE6A007F3C4A /* README2.md */; };
-		D768B0BC1C28EE6A007F3C4A /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D768B0B91C28EE6A007F3C4A /* LICENSE.txt */; };
-		D768B0BD1C28EE6A007F3C4A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D768B0BA1C28EE6A007F3C4A /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -148,7 +145,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D768B0BC1C28EE6A007F3C4A /* LICENSE.txt in Resources */,
 				8460E8F21B21166400683850 /* character.scnassets in Resources */,
 				8460E8F41B21166400683850 /* Images.xcassets in Resources */,
 				8460E8FE1B211CCA00683850 /* MainMenu.xib in Resources */,
@@ -164,8 +160,6 @@
 			files = (
 				D768B0B71C28EE43007F3C4A /* AAPLAppDelegate.swift in Sources */,
 				D756F1A21C281CD5006C884C /* AAPLSceneViewController.swift in Sources */,
-				D768B0BD1C28EE6A007F3C4A /* README.md in Sources */,
-				D768B0BB1C28EE6A007F3C4A /* README2.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
