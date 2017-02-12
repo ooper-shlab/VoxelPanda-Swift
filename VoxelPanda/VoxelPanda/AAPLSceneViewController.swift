@@ -29,7 +29,7 @@ import SceneKit.ModelIO
 private let SCALE_FACTOR: CGFloat = 0.1
 
 private func rnd() -> SCNVectorFloat {
-    return 0.01 * SCNVectorFloat(SCALE_FACTOR) * ((SCNVectorFloat(rand()) / SCNVectorFloat(RAND_MAX)) - 0.5)
+    return 0.01 * SCNVectorFloat(SCALE_FACTOR) * ((SCNVectorFloat(arc4random()) / SCNVectorFloat(RAND_MAX)) - 0.5)
 }
 
 @objc(AAPLSceneViewController)
@@ -38,9 +38,9 @@ class AAPLSceneViewController: BaseViewController {
     
     @IBOutlet weak var sceneView: SCNView!
     
-    private var _character: SCNNode!
-    private var _voxels: SCNNode?
-    private var _explodeUsingCubes: Bool = false
+    fileprivate var _character: SCNNode!
+    fileprivate var _voxels: SCNNode?
+    fileprivate var _explodeUsingCubes: Bool = false
     
     // Set up scene with character.scn asset and set view properties
     override func awakeFromNib() {
@@ -56,16 +56,16 @@ class AAPLSceneViewController: BaseViewController {
         let characterScene = SCNScene(named: "character.scnassets/character.scn")!
         
         // For each static physics body in the scene, set its shape and remove the node's geometry so it doesn't appear in the scene.
-        let collisionNode = characterScene.rootNode.childNodeWithName("collision", recursively: true)!
-        collisionNode.enumerateChildNodesUsingBlock{child, stop in
+        let collisionNode = characterScene.rootNode.childNode(withName: "collision", recursively: true)!
+        collisionNode.enumerateChildNodes{child, stop in
             child.physicsBody!.physicsShape = SCNPhysicsShape(geometry: child.geometry!, options: nil)
             child.geometry = nil
         }
         
         // Set view properties and defaults
-        _character = characterScene.rootNode.childNodeWithName("character", recursively: true)!
+        _character = characterScene.rootNode.childNode(withName: "character", recursively: true)!
         self.sceneView.scene = characterScene
-        self.sceneView.jitteringEnabled = true
+        self.sceneView.isJitteringEnabled = true
         self.sceneView.allowsCameraControl = false
     }
     
@@ -73,11 +73,11 @@ class AAPLSceneViewController: BaseViewController {
         // Create MDLAsset from scene
         let tempScene = SCNScene()
         tempScene.rootNode.addChildNode(_character)
-        let asset = MDLAsset(SCNScene: tempScene)
+        let asset = MDLAsset(scnScene: tempScene)
         
         // Create voxel grid from MDLAsset
         let grid = MDLVoxelArray(asset: asset, divisions: 25, interiorShells: 0, exteriorShells: 0, patchRadius: 0.0)
-        if let voxelData = grid.voxelIndices() where voxelData.bytes != nil {   // retrieve voxel data
+        if let voxelData = grid.voxelIndices() {   // retrieve voxel data
             // Create voxel parent node and add to scene
             _voxels?.removeFromParentNode()
             _voxels = SCNNode()
@@ -87,65 +87,65 @@ class AAPLSceneViewController: BaseViewController {
             let particle = SCNBox(width: 2.0 * SCALE_FACTOR, height: 2.0 * SCALE_FACTOR, length: 2.0 * SCALE_FACTOR, chamferRadius: 0.0)
             
             // Get the character's texture map and convert to a bitmap
-            let url = _character.childNodes[0].geometry!.firstMaterial!.diffuse.contents as! NSURL // this sample assumes that the `diffuse` material property is an URL to an image
+            let url = _character.childNodes[0].geometry!.firstMaterial!.diffuse.contents as! URL // this sample assumes that the `diffuse` material property is an URL to an image
             let image: CGImage
             #if os(iOS)
                 //        image = [[UIImage imageWithContentsOfFile:[url path]] CGImage];
             #else
-                image = NSImage(byReferencingURL: url).CGImageForProposedRect(nil, context: nil, hints: nil)!
+                image = NSImage(byReferencing: url).cgImage(forProposedRect: nil, context: nil, hints: nil)!
             #endif
-            let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(image))!
+            let pixelData = image.dataProvider?.data!
             let buf = CFDataGetBytePtr(pixelData)
-            let w = CGImageGetWidth(image)
-            let h = CGImageGetHeight(image)
-            let bpr = CGImageGetBytesPerRow(image) // this sample assumes 8 bits per component
-            let bpp = CGImageGetBitsPerPixel(image) / 8
+            let w = image.width
+            let h = image.height
+            let bpr = image.bytesPerRow // this sample assumes 8 bits per component
+            let bpp = image.bitsPerPixel / 8
             
             // Traverse the NSData voxel array and for each ijk index, create a voxel node positioned at its spatial location
-            var voxels = UnsafeMutablePointer<MDLVoxelIndex>(voxelData.bytes)
-            let count = voxelData.length / sizeof(MDLVoxelIndex)
-            for _ in 0..<count {
-                let position = grid.spatialLocationOfIndex(voxels.memory)
-                voxels = voxels.successor()
-                
-                let OFFSET_FACTOR: SCNVectorFloat = 0.9
-                // Determine color of the voxel by performing a hit test and then getting the texture coordinate at the point of intersection
-                let results = self.sceneView.scene!.rootNode
-                    .hitTestWithSegmentFromPoint(SCNVector3Make(SCNVectorFloat(position.x), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + 1.0),
-                        toPoint: SCNVector3Make(SCNVectorFloat(position.x)  * OFFSET_FACTOR , SCNVectorFloat(position.y)  * OFFSET_FACTOR, SCNVectorFloat(position.z) - 5.0),
-                        options: [SCNHitTestRootNodeKey : _character, SCNHitTestBackFaceCullingKey : false])
-                #if os(iOS)
-                    //            UIColor *color = [UIColor darkGrayColor]; // default voxel color
-                #else
-                    var color = NSColor.darkGrayColor()
-                #endif
-                if !results.isEmpty {
-                    let result = results[0]
-                    let tx = result.textureCoordinatesWithMappingChannel(0)
-                    // Get the bitmap pixel color at the texture coordinate
-                    let x = tx.x * CGFloat(w)
-                    let y = tx.y * CGFloat(h)
-                    let pixel = bpr * Int(round(y)) + bpp * Int(round(x))
-                    let r = CGFloat(buf[pixel]) / 255.0 // this sample code assumes that the first 3 components are R, G and B
-                    let g = CGFloat(buf[pixel+1]) / 255.0
-                    let b = CGFloat(buf[pixel+2]) / 255.0
+            voxelData.withUnsafeBytes {(voxels: UnsafePointer<MDLVoxelIndex>) in
+                let count = voxelData.count / MemoryLayout<MDLVoxelIndex>.size
+                for i in 0..<count {
+                    let position = grid.spatialLocation(ofIndex: voxels[i])
+                    
+                    let OFFSET_FACTOR: SCNVectorFloat = 0.9
+                    // Determine color of the voxel by performing a hit test and then getting the texture coordinate at the point of intersection
+                    let results = self.sceneView.scene!.rootNode
+                        .hitTestWithSegment(from: SCNVector3Make(SCNVectorFloat(position.x), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + 1.0),
+                                            to: SCNVector3Make(SCNVectorFloat(position.x)  * OFFSET_FACTOR , SCNVectorFloat(position.y)  * OFFSET_FACTOR, SCNVectorFloat(position.z) - 5.0),
+                                            options: [SCNHitTestOption.rootNode.rawValue : _character, SCNHitTestOption.backFaceCulling.rawValue : false])
                     #if os(iOS)
-                        //                color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+                        var color = UIColor.darkGray // default voxel color
                     #else
-                        color = NSColor(calibratedRed: r, green: g, blue:b, alpha: 1)
+                        var color = NSColor.darkGray
                     #endif
+                    if !results.isEmpty {
+                        let result = results[0]
+                        let tx = result.textureCoordinates(withMappingChannel: 0)
+                        // Get the bitmap pixel color at the texture coordinate
+                        let x = tx.x * CGFloat(w)
+                        let y = tx.y * CGFloat(h)
+                        let pixel = bpr * Int(round(y)) + bpp * Int(round(x))
+                        let r = CGFloat((buf?[pixel])!) / 255.0 // this sample code assumes that the first 3 components are R, G and B
+                        let g = CGFloat((buf?[pixel+1])!) / 255.0
+                        let b = CGFloat((buf?[pixel+2])!) / 255.0
+                        #if os(iOS)
+                            color = UIColor(red:r, green: g, blue: b, alpha: 1)
+                        #else
+                            color = NSColor(calibratedRed: r, green: g, blue:b, alpha: 1)
+                        #endif
+                    }
+                    
+                    // Create the voxel node and set its properties
+                    let voxelNode = SCNNode(geometry: (particle.copy() as! SCNGeometry))
+                    voxelNode.position = SCNVector3Make(SCNVectorFloat(position.x) + rnd(), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + rnd())
+                    let material = SCNMaterial()
+                    material.diffuse.contents = color
+                    material.selfIllumination.contents = "character.scnassets/textures/max_ambiant.png"
+                    voxelNode.geometry!.firstMaterial = material
+                    
+                    // Add voxel node to the scene
+                    _voxels!.addChildNode(voxelNode)
                 }
-                
-                // Create the voxel node and set its properties
-                let voxelNode = SCNNode(geometry: (particle.copy() as! SCNGeometry))
-                voxelNode.position = SCNVector3Make(SCNVectorFloat(position.x) + rnd(), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + rnd())
-                let material = SCNMaterial()
-                material.diffuse.contents = color
-                material.selfIllumination.contents = "character.scnassets/textures/max_ambiant.png"
-                voxelNode.geometry!.firstMaterial = material
-                
-                // Add voxel node to the scene
-                _voxels!.addChildNode(voxelNode)
             }
             _explodeUsingCubes = true
         }
@@ -156,7 +156,7 @@ class AAPLSceneViewController: BaseViewController {
             let cube = SCNBox(width: 2.0 * SCALE_FACTOR, height: 2.0 * SCALE_FACTOR, length: 2.0 * SCALE_FACTOR, chamferRadius: 0.0)
             
             // For each voxel node, change its geometry to a cube
-            _voxels?.enumerateChildNodesUsingBlock{child, stop in
+            _voxels?.enumerateChildNodes{child, stop in
                 let material = child.geometry?.firstMaterial
                 child.geometry = (cube.copy() as! SCNGeometry)
                 child.geometry!.firstMaterial = material
@@ -170,7 +170,7 @@ class AAPLSceneViewController: BaseViewController {
             let sphere = SCNSphere(radius: 1.0 * SCALE_FACTOR)
             
             // For each voxel node, change its geometry to a sphere
-            _voxels?.enumerateChildNodesUsingBlock{child, stop in
+            _voxels?.enumerateChildNodes{child, stop in
                 let material = child.geometry?.firstMaterial
                 child.geometry = (sphere.copy() as! SCNGeometry)
                 child.geometry!.firstMaterial = material
@@ -189,10 +189,10 @@ class AAPLSceneViewController: BaseViewController {
         }
         
         // For each voxel node, apply a physics force
-        _voxels?.enumerateChildNodesUsingBlock{child, stop in
-            child.physicsBody = SCNPhysicsBody.dynamicBody()
+        _voxels?.enumerateChildNodes{child, stop in
+            child.physicsBody = SCNPhysicsBody.dynamic()
             child.physicsBody!.physicsShape = SCNPhysicsShape(geometry: particle, options: nil)
-            child.physicsBody!.applyForce(SCNVector3Make(rnd() * 1000.0, 3.0 + 100.0 * rnd(), rnd() * 1000.0), atPosition: SCNVector3Make(0.0, 0.0, 0.0), impulse: true)
+            child.physicsBody!.applyForce(SCNVector3Make(rnd() * 1000.0, 3.0 + 100.0 * rnd(), rnd() * 1000.0), at: SCNVector3Make(0.0, 0.0, 0.0), asImpulse: true)
         }
     }
     
