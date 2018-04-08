@@ -69,7 +69,7 @@ class AAPLSceneViewController: BaseViewController {
         self.sceneView.allowsCameraControl = false
     }
     
-    @IBAction func voxelize(_: AnyObject) {
+    @IBAction func voxelize(_: Any) {
         // Create MDLAsset from scene
         let tempScene = SCNScene()
         tempScene.rootNode.addChildNode(_character)
@@ -87,7 +87,15 @@ class AAPLSceneViewController: BaseViewController {
             let particle = SCNBox(width: 2.0 * SCALE_FACTOR, height: 2.0 * SCALE_FACTOR, length: 2.0 * SCALE_FACTOR, chamferRadius: 0.0)
             
             // Get the character's texture map and convert to a bitmap
-            let url = _character.childNodes[0].geometry!.firstMaterial!.diffuse.contents as! URL // this sample assumes that the `diffuse` material property is an URL to an image
+            let contents = _character.childNodes[0].geometry!.firstMaterial!.diffuse.contents
+            let url: URL // this sample assumes that the `diffuse` material property is an URL to an image
+            if let theUrl = contents as? URL {
+                url = theUrl
+            } else {
+                //### Or a relative path string to an image
+                let thePath = contents as! String
+                url = Bundle.main.url(forResource: thePath, withExtension: nil)!
+            }
             let image: CGImage
             #if os(iOS)
                 //        image = [[UIImage imageWithContentsOfFile:[url path]] CGImage];
@@ -151,7 +159,7 @@ class AAPLSceneViewController: BaseViewController {
         }
     }
     
-    @IBAction func dispalyVoxelsAsCubes(_: AnyObject) {
+    @IBAction func dispalyVoxelsAsCubes(_: Any) {
         if !_explodeUsingCubes {
             let cube = SCNBox(width: 2.0 * SCALE_FACTOR, height: 2.0 * SCALE_FACTOR, length: 2.0 * SCALE_FACTOR, chamferRadius: 0.0)
             
@@ -165,7 +173,7 @@ class AAPLSceneViewController: BaseViewController {
         }
     }
     
-    @IBAction func dispalyVoxelsAsSpheres(_: AnyObject) {
+    @IBAction func dispalyVoxelsAsSpheres(_: Any) {
         if _explodeUsingCubes {
             let sphere = SCNSphere(radius: 1.0 * SCALE_FACTOR)
             
@@ -179,7 +187,7 @@ class AAPLSceneViewController: BaseViewController {
         }
     }
     
-    @IBAction func explode(_: AnyObject) {
+    @IBAction func explode(_: Any) {
         // The shape of the physics body varies depending on the geometry of the voxel node
         let particle: SCNGeometry
         if _explodeUsingCubes {
@@ -196,7 +204,7 @@ class AAPLSceneViewController: BaseViewController {
         }
     }
     
-    @IBAction func reset(_: AnyObject) {
+    @IBAction func reset(_: Any) {
         _voxels?.removeFromParentNode()
         self.sceneView.scene!.rootNode.addChildNode(_character)
     }
