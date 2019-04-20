@@ -110,7 +110,8 @@ class AAPLSceneViewController: BaseViewController {
             let bpp = image.bitsPerPixel / 8
             
             // Traverse the NSData voxel array and for each ijk index, create a voxel node positioned at its spatial location
-            voxelData.withUnsafeBytes {(voxels: UnsafePointer<MDLVoxelIndex>) in
+            voxelData.withUnsafeBytes {voxelBytes in
+                let voxels = voxelBytes.bindMemory(to: MDLVoxelIndex.self).baseAddress!
                 let count = voxelData.count / MemoryLayout<MDLVoxelIndex>.size
                 for i in 0..<count {
                     let position = grid.spatialLocation(ofIndex: voxels[i])
@@ -120,7 +121,7 @@ class AAPLSceneViewController: BaseViewController {
                     let results = self.sceneView.scene!.rootNode
                         .hitTestWithSegment(from: SCNVector3Make(SCNVectorFloat(position.x), SCNVectorFloat(position.y), SCNVectorFloat(position.z) + 1.0),
                                             to: SCNVector3Make(SCNVectorFloat(position.x)  * OFFSET_FACTOR , SCNVectorFloat(position.y)  * OFFSET_FACTOR, SCNVectorFloat(position.z) - 5.0),
-                                            options: [SCNHitTestOption.rootNode.rawValue : _character, SCNHitTestOption.backFaceCulling.rawValue : false])
+                                            options: [SCNHitTestOption.rootNode.rawValue : _character!, SCNHitTestOption.backFaceCulling.rawValue : false])
                     #if os(iOS)
                         var color = UIColor.darkGray // default voxel color
                     #else
